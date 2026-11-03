@@ -1,0 +1,361 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" /><title>¿Me perdonas Cecilia? 🥀</title><style>
+* { box-sizing: border-box; }
+body{  
+  margin:0;  
+  min-height:100vh;  
+  display:flex;  
+  flex-direction:column;  
+  justify-content:center;  
+  align-items:center;  
+  background:linear-gradient(180deg,#fff0f8,#ffeaf4,#fff5fb);  
+  font-family:'Poppins',sans-serif;  
+  overflow:hidden;  
+  text-align:center;  
+  touch-action:none;  
+  padding: 10px;
+}
+/* 💞 Título */
+h1{  
+  color:#111;  
+  font-size: 1.8rem;  
+  font-weight:700;  
+  margin: 0 0 10px 0;  
+  text-shadow:0 0 8px rgba(255,255,255,0.4);  
+}
+/* 🌸 Tarjeta */
+.card{  
+  width: 100%;
+  max-width: 400px;  
+  background:rgba(255,255,255,0.85);  
+  backdrop-filter:blur(12px);  
+  border-radius:24px;  
+  box-shadow:0 0 25px rgba(255,180,210,0.3);  
+  padding: 20px 15px;  
+  display:flex;  
+  flex-direction:column;  
+  align-items:center;  
+  justify-content: space-between;
+  position:relative;  
+  overflow:hidden;  
+}
+/* 🐱 GIF */
+img{  
+  width: 100%;
+  max-width: 260px;  
+  height: 260px;  
+  object-fit:cover;  
+  border-radius:18px;  
+  box-shadow:0 0 15px rgba(255,150,200,0.4);  
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float {  0%,100% { transform: translateY(0); }  50% { transform: translateY(-5px); }}
+
+/* 💬 Texto */
+#textContainer{  
+  min-height: 50px;
+  display:flex;  
+  justify-content:center;  
+  align-items:center;  
+  margin: 15px 0;
+  width: 100%;
+}
+.text{  
+  font-size: 1.15rem;  
+  color:#ff2f8a;  
+  font-weight:600;  
+  margin: 0;
+  text-shadow:0 0 10px rgba(255,140,200,0.3);  
+  animation:fadeIn 0.5s ease forwards;  
+  line-height: 1.3em;
+}
+@keyframes fadeIn {  from { opacity:0; transform:translateY(10px);}  to { opacity:1; transform:translateY(0);}}
+
+/* 💖 Botones */
+.buttons{  
+  display:flex;  
+  gap: 15px;  
+  justify-content:center;  
+  align-items: center;
+  width:100%;
+  min-height: 60px;
+}
+button{  
+  border:none;  
+  border-radius:50px;  
+  padding: 12px 26px;  
+  font-size: 1rem;  
+  font-weight:600;  
+  cursor:pointer;  
+  transition:all 0.3s ease;  
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  white-space: nowrap;
+}
+#yes{  
+  background:linear-gradient(145deg,#ff80c1,#ffa8d6);  
+  color:#fff;  
+  z-index:10;
+}
+#no{  
+  background:#fff;  
+  color:#ff4d94;  
+  border:2px solid #ff8fc6;  
+}
+
+/* ❤️ Corazones */
+.heart{  
+  position:fixed;  
+  bottom:-10px;  
+  font-size:22px;  
+  color:#ff7dbf;  
+  opacity:0.9;  
+  animation:rise 5s linear forwards;  
+  pointer-events:none;  
+  z-index:10;
+}
+@keyframes rise{  0%{transform:translateY(0) scale(1);opacity:1;}  100%{transform:translateY(-110vh) scale(0.8);opacity:0;}}
+
+/* 🌟 Pantalla final */
+.finalScreen{  
+  position:fixed;  
+  top:0; left:0; width:100%; height:100%;  
+  background:linear-gradient(180deg,#ffeaf5,#ffd6eb);  
+  display:flex;  
+  flex-direction:column;  
+  justify-content:center;  
+  align-items:center;  
+  opacity:0;  
+  animation:fadeInFinal 1s ease forwards;  
+  padding:15px;  
+  overflow-y: auto;
+}
+@keyframes fadeInFinal{ from{opacity:0;} to{opacity:1;}}
+.finalGif{  
+  width: 140px;  
+  height: 140px;  
+  border-radius:15px;  
+  box-shadow:0 0 15px rgba(255,160,200,0.6);  
+  margin-bottom:6px;
+}
+.finalText{  
+  font-size: 1.1rem;  
+  color:#ff4fa6;  
+  font-weight:700;  
+  margin-bottom:6px;
+}
+.read-btn {  
+  background: #ff2f8a;  
+  color: white;  
+  border: none;  
+  padding: 10px 20px;  
+  border-radius: 30px;  
+  font-size: 0.9rem;  
+  font-weight: 600;  
+  cursor: pointer;  
+  box-shadow: 0 4px 15px rgba(255,47,138,0.4);
+  margin-top: 8px;
+}
+
+/* Contenedor adaptado para el reproductor embed de EasyMusic */
+.music-wrapper {
+  width: 100%;
+  max-width: 380px;
+  height: 160px; /* Ajustado para que se vea compacto y elegante */
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255,100,160,0.3);
+  margin-bottom: 8px;
+}
+
+/* Modal de cartas */
+.modal {  
+  display: none;  
+  position: fixed;  
+  top: 0; left: 0; width: 100%; height: 100%;  
+  background: rgba(0,0,0,0.6);  
+  backdrop-filter: blur(5px);  
+  justify-content: center;  
+  align-items: center;  
+  z-index: 1000;  
+  padding: 15px;
+}
+.modal-content {  
+  background: #fff;  
+  width: 100%; max-width: 500px; max-height: 80vh;  
+  border-radius: 20px;  
+  padding: 25px 20px;  
+  overflow-y: auto;  
+  text-align: left;  
+  position: relative;
+}
+.modal-content h3 { color: #ff2f8a; margin-top:0; text-align: center;}
+.modal-content p { color: #444; font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px;}
+.close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #888;}
+</style></head><body>
+
+<h1 id="title">¿Me perdonas Cecilia? 💔</h1>
+
+<div class="card" id="card">  
+  <img id="gif" src="https://media.giphy.com/media/PRjodsw2CF2dr2oVhq/giphy.gif" alt="gatito triste"/>  
+  <div id="textContainer"></div>
+  <div class="buttons" id="buttons">    
+    <button id="no">No 💔</button>    
+    <button id="yes">Sí 💖</button>  
+  </div>
+</div>
+
+<script>
+const frases=[  
+  "Dime que sí, Cecilia... Por favor 😿",  
+  "No seas así con este loquito tuyo... 🥺",  
+  "Dame otra oportunidad para cuidarte 💐",  
+  "¿Acaso no extrañas lo nuestro? 😭",  
+  "Prometo ser más paciente 🥹",  
+  "Sabes que eres el amor de mi vida 😽",  
+  "Te quiero con el alma sin dudas 💞",  
+  "¡Me perdonas o me perdonas! 💘"
+];
+const gifs=[  
+  "https://media.giphy.com/media/PRjodsw2CF2dr2oVhq/giphy.gif",  
+  "https://media.giphy.com/media/tk8cksLHlE7Gpo5lSI/giphy.gif",  
+  "https://media.giphy.com/media/8wkBuj77ftd64V2UjQ/giphy.gif",  
+  "https://media.giphy.com/media/6FUcoC9LZUe5msT8b7/giphy.gif",  
+  "https://media.giphy.com/media/xrWwgpFS6T2QOx8pVS/giphy.gif",  
+  "https://media.giphy.com/media/7DcWULPrivdaZr6wwF/giphy.gif",  
+  "https://media.giphy.com/media/kyM13pBqFf2dpzJjHe/giphy.gif",  
+  "https://media.giphy.com/media/fpFa9Nl3QZOVYYRM83/giphy.gif"
+];
+const finalGif="https://media.giphy.com/media/l4iLX16H9dQV6bTgSc/giphy.gif";
+
+const gif=document.getElementById('gif');
+const textContainer=document.getElementById('textContainer');
+const card=document.getElementById('card');
+const btnNo=document.getElementById('no');
+const btnYes=document.getElementById('yes');
+const title=document.getElementById('title');
+let paso=0;
+
+mostrarTexto(frases[0]);
+function mostrarTexto(t){  
+  const newText=document.createElement('p');  
+  newText.className='text';  
+  newText.textContent=t;  
+  textContainer.innerHTML='';  
+  textContainer.appendChild(newText);
+}
+
+btnNo.addEventListener('click',()=>{  
+  paso++;  
+  if(paso<frases.length){    
+    gif.style.opacity=0;    
+    setTimeout(()=>{      
+      mostrarTexto(frases[paso]);      
+      gif.src=gifs[paso];      
+      gif.style.opacity=1;    
+    },300);
+
+    const noSize=Math.max(0.2, 1 - 0.1*paso);    
+    const yesSize=1 + 0.15*paso;    
+    btnNo.style.transform=`scale(${noSize})`;    
+    btnYes.style.transform=`scale(${yesSize})`;
+
+    if(paso===frases.length-1){      
+      btnNo.style.opacity="0";      
+      btnNo.style.pointerEvents="none";      
+      btnYes.style.transform="scale(1.4)";    
+    }  
+  }
+});
+
+btnYes.addEventListener('click',()=>{  
+  title.style.opacity="0";  
+  card.style.opacity="0";  
+  setTimeout(()=>{    
+    card.style.display="none";    
+    crearPantallaFinal();  
+  },600);
+});
+
+function crearPantallaFinal(){  
+  const finalDiv=document.createElement("div");  
+  finalDiv.className="finalScreen";
+
+  const gifFinal=document.createElement("img");  
+  gifFinal.src=finalGif;  
+  gifFinal.className="finalGif";
+
+  const textFinal=document.createElement("p");  
+  textFinal.className="finalText";  
+  textFinal.textContent="Sabía que me perdonarías. TE AMO 💞✨";
+
+  // Contenedor con tu iframe de EasyMusic.ai perfectamente integrado
+  const musicWrapper = document.createElement("div");
+  musicWrapper.className = "music-wrapper";
+  musicWrapper.innerHTML = `
+    <iframe 
+      width="100%" 
+      height="160" 
+      src="https://easymusic.ai/es/music/6654359-524b3d99-0faa-f8cb-26dd-ab7e48412593/embed" 
+      style="border: none; width: 100%; height: 100%;"
+      allow="autoplay; web-share"
+      loading="lazy"
+      title="EasyMusic.AI Player"
+      sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation"
+    ></iframe>
+  `;
+
+  const btnRead = document.createElement("button");
+  btnRead.className = "read-btn";
+  btnRead.textContent = "📖 Leer mis cartas para ti";
+  btnRead.onclick = abrirModalCartas;
+
+  finalDiv.appendChild(gifFinal);  
+  finalDiv.appendChild(textFinal);  
+  finalDiv.appendChild(musicWrapper);
+  finalDiv.appendChild(btnRead);
+  document.body.appendChild(finalDiv);  
+  lanzarCorazones();
+}
+
+function abrirModalCartas() {
+  let modal = document.getElementById("cartasModal");
+  if(!modal) {
+    modal = document.createElement("div");
+    modal.id = "cartasModal";
+    modal.className = "modal";
+    modal.innerHTML = `
+      <div class="modal-content">
+        <span class="close-modal" onclick="cerrarModal()">&times;</span>
+        <h3>Para Cecilia 🥀</h3>
+        <p><b>Lo que tú despiertas en mí:</b> Sé que me haces falta más de lo que logro explicar. Que mi mundo se siente diferente cuando no estás. Que a veces me siento incompleto, como si una parte de mí supiera que está contigo.</p>
+        <p>Quiero saber si descansaste, si ya comiste, si estás bien. Me preocupo por ti más de lo que imaginas.</p>
+        <p><b>Nuestra primera vez:</b> Me dijeron 'piensa en algo bonito' y me acordé cuando nos pusimos de acuerdo para vernos por primera vez. Te daría cada pedacito de mi corazón para arreglar hasta el más mínimo dolor que esté en el tuyo.</p>
+        <p>Por si lo dudabas, mi parte favorita de verte no fue la intimidad, fue sentir tu olor, ver tus ojitos, acariciar tu cabello, abrazarte, darte besitos por toda la cara, escucharte hablarme suave, entrelazar nuestras manos, oírte reír y verte sonreír.</p>
+        <p><b>Amor sin dudas:</b> Te quiero como se quiere una sola vez en la vida. CON EL ALMA Y SIN NINGUNA DUDA. Perdón por ser tan insistente contigo, tengo claro que eres el amor de mi vida.</p>
+        <p>— Siempre aquí, pensando en ti 💖</p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  modal.style.display = "flex";
+}
+
+function cerrarModal() {
+  const modal = document.getElementById("cartasModal");
+  if(modal) modal.style.display = "none";
+}
+
+function lanzarCorazones(){  
+  for(let i=0;i<40;i++){    
+    const heart=document.createElement("div");    
+    heart.className="heart";    
+    heart.textContent=Math.random()>0.3?"💖":"✨";    
+    heart.style.left=Math.random()*100+"vw";    
+    heart.style.animationDelay=Math.random()*2+"s";    
+    heart.style.fontSize=(16+Math.random()*20)+"px";    
+    document.body.appendChild(heart);    
+    setTimeout(()=>heart.remove(),5000);  
+  }
+}
+</script>
+</body></html>
